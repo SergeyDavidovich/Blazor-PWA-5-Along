@@ -1,0 +1,77 @@
+﻿@page "/products"
+
+@using DataServices
+@using BlazorPWA5Along.Models;
+@using Newtonsoft.Json;
+
+
+
+@inject ProductsService service
+@inject HttpClient Http
+
+
+<h3>Prodacts count: @products.Count.ToString()</h3>
+
+
+@if (products == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Unit Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.Id.ToString()</td>
+                    <td>@product.Name</td>
+                    <td>@product.UnitPrice.ToString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+
+    List<Product> products { get; set; } = new List<Product>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        //await Task.Delay(5000);
+
+        products = await service.GetProductsAsync();
+    }
+
+    public async Task<List<Product>> GetProductsAsync()
+    {
+
+        var request = new HttpRequestMessage();
+        request.Headers.Add("mode", "no-cors");
+
+        request.RequestUri = new Uri("https://northwind.now.sh/api/products");
+        request.Method = HttpMethod.Get;
+
+
+
+        HttpResponseMessage response = await Http.SendAsync(request);
+
+
+        //HttpResponseMessage response = await _httpClient.GetAsync("https://northwind.now.sh/api/products");
+        response.EnsureSuccessStatusCode();
+
+        string json = await response.Content.ReadAsStringAsync();
+
+        products = JsonConvert.DeserializeObject<List<Product>>(json);
+        return products;
+    }
+}
