@@ -9,11 +9,11 @@
 @inject ProductsService service
 @inject HttpClient Http
 
+<h5>This page doesn't works off-line </h5>
+<h7>Products count: @products.Count.ToString()</h7>
 
-<h3>Prodacts count: @products.Count.ToString()</h3>
 
-
-@if (products == null)
+@if (products.Count == 0)
 {
     <p><em>Loading...</em></p>
 }
