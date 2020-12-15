@@ -8,7 +8,8 @@ on:
 jobs:
   deploy-to-github-pages:
     # use ubuntu-latest image to run steps on
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     # uses GitHub's checkout action to checkout code form the master branch
     - uses: actions/checkout@v2
@@ -21,7 +22,7 @@ jobs:
 
     # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
-      run: dotnet publish Blazor-PWA-5-Along/Blazor-PWA-5-Along.csproj -c Release -o release --nologo
+      run: dotnet publish ../Blazor-PWA-5-Along.csproj -c Release -o release --nologo
      # run: dotnet publish src/Meziantou.Moneiz/Meziantou.Moneiz.csproj --configuration Release
     
     # changes the base-tag in index.html from '/' to 'Blazor-PWA-5-Along' to match GitHub Pages repository subdirectory
