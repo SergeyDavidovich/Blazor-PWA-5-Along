@@ -1,4 +1,4 @@
-name: BlazorPwa5Along # Name of the workflow.
+name: BlazorPwa5AlongToNetlify # Name of the workflow.
 on: [push] # Action on which the workflow runs. Can be push, pull_request, page_build, or many others
 
 jobs:
